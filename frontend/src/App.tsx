@@ -1,12 +1,10 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Dashboard from './components/Dashboard';
+
+import RegistrationPage from './components/RegistrationPage';
 
 function App() {
   return (
     <div className="App">
-      <Dashboard/>
+      <RegistrationPage/>
     </div>
   );
 }

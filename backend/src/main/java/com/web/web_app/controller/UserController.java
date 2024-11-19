@@ -41,13 +41,17 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userdto) {
         User userRequest = modelMapper.map(userdto, User.class);
-        
+
+        // Save hashed password
+        userRequest.setPassword(userService.hashPassword(userRequest.getPassword()));
+
         User user = userService.create(userRequest);
 
         UserDto postResponse = modelMapper.map(user, UserDto.class);
 
         return new ResponseEntity<UserDto>(postResponse, HttpStatus.CREATED);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getPostById(@PathVariable(name = "id") Long id) {
