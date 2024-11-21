@@ -23,20 +23,20 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const { email, password } = formData;
-
-    // Semplice validazione
-    if (email === 'admin@admin.com' && password === 'password') {
-      alert('Login avvenuto con successo!');
-    } else {
-      setError('Credenziali non valide. Riprova.');
-    }
-    const token = fetch("http://localhost:8000/auth/login", {
+    fetch("http://localhost:8000/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData)
+    }).then(response => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        return response.json().then(errorData => {
+          setError(errorData.message)
+        });
+      }
     })
   };
 
