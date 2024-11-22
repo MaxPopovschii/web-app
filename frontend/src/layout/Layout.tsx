@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
-  Box,
   AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
+  Avatar,
+  Box,
+  Divider,
   Drawer,
+  IconButton,
   List,
   ListItemButton,
   ListItemText,
-  Avatar,
-  Divider,
+  Toolbar,
+  Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { useState } from "react";
+import Dashboard from "../components/Dashboard";
 
 // Простая компонента для профиля пользователя
 const UserProfile = () => (
@@ -26,16 +27,8 @@ const UserProfile = () => (
   </Box>
 );
 
-// Компонента дашборда
-const Dashboard = () => (
-  <Box sx={{ padding: 2 }}>
-    <Typography variant="h4">Dashboard</Typography>
-    <Typography variant="body1" sx={{ marginTop: 2 }}>
-      Welcome to your EcoFootprint dashboard!
-    </Typography>
-    {/* Добавьте больше контента для дашборда здесь */}
-  </Box>
-);
+
+
 
 // Основной Layout с боковым меню и шапкой
 const Layout = () => {

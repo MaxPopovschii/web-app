@@ -78,6 +78,9 @@ const LoginPage: React.FC = () => {
         <button type="submit" style={styles.button}>
           Accedi
         </button>
+        <button type="button" onClick={() => navigate("/")} style={styles.buttonBack}>
+          Torna indietro
+        </button>
       </form>
     </div>
   );
@@ -118,12 +121,24 @@ const styles: { [key: string]: React.CSSProperties } = {
   button: {
     width: '100%',
     padding: '10px',
+    backgroundColor: '#28a745',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    marginTop: '16px',
+  },
+  buttonBack: {
+    width: '100%',
+    padding: '10px',
     backgroundColor: '#007BFF',
     color: '#fff',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
     fontSize: '16px',
+    marginTop: '16px',
   },
   error: {
     color: 'red',

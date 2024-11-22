@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
   RouterProvider,
-} from "react-router-dom"
-import RegistrationPage from './layout/RegistrationPage';
-import LoginPage from './layout/LoginPage';
-import HomePage from './layout/HomePage';
+} from "react-router-dom";
 import Dashboard from './components/Dashboard';
+import HomePage from './layout/HomePage';
 import Layout from './layout/Layout';
+import LoginPage from './layout/LoginPage';
+import RegistrationPage from './layout/RegistrationPage';
 
 
 
@@ -28,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard/>,
+  },
+  {
+    path: "/layout",
+    element:<Layout/>,
   }
 ]);
 
