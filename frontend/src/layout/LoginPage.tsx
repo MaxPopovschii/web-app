@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginFormState {
   email: string;
@@ -10,6 +11,7 @@ const LoginPage: React.FC = () => {
     email: '',
     password: '',
   });
+  const navigate = useNavigate();
 
   const [error, setError] = useState<string | null>(null);
 
@@ -31,7 +33,11 @@ const LoginPage: React.FC = () => {
       body: JSON.stringify(formData)
     }).then(response => {
       if (response.status === 200) {
-        return response.json();
+        setError(null)
+        setTimeout(() => {
+          navigate("/dashboard")
+        }, 2000)
+        return  response.json();
       } else {
         return response.json().then(errorData => {
           setError(errorData.message)

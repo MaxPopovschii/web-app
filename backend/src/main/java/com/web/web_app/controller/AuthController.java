@@ -1,9 +1,9 @@
 package com.web.web_app.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +21,6 @@ import com.web.web_app.services.UserService;
 public class AuthController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     private JWTUtil jwtUtil;
 
     @Autowired
@@ -32,13 +29,14 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginDto logindto) {
+    public ResponseEntity<String> login(@RequestBody LoginDto logindto) {
         User user = userService.getByEmail(logindto.getEmail());
         if (userService.matchesPassword(logindto.getPassword(), user.getPassword())) {
             String jwtToken = jwtUtil.generateToken(user.getEmail());
-            return jwtToken;
+            
+            return ResponseEntity.ok(jwtToken);
         } else {
-            return  "Email or password wrong.";
+            return  new ResponseEntity<String>("Email or password wrong.", HttpStatusCode.valueOf(400));
         }
     }
 }

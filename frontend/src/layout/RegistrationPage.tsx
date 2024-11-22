@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface RegistrationFormState {
   name: string;
@@ -16,7 +17,7 @@ const RegistrationPage: React.FC = () => {
     password: '',
     confirmPassword: '',
   });
-
+  const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -45,9 +46,27 @@ const RegistrationPage: React.FC = () => {
       return;
     }
 
-    // Simula una registrazione avvenuta con successo
-    setError(null);
-    setSuccess('Registrazione avvenuta con successo!');
+    fetch("http://localhost:8000/api/users", {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData)
+    }).then(response => {
+      if (response.status === 201) {
+        setSuccess('Registrazione avvenuta con successo!');
+        setError(null);
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000)
+      } else {
+        return response.json().then(errorData => {
+          setError(errorData)
+        })
+      }
+    })
+    
+    
   };
 
   return (
@@ -126,7 +145,6 @@ const RegistrationPage: React.FC = () => {
   );
 };
 
-// Stili in linea
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
     display: 'flex',
