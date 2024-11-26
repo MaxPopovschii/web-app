@@ -20,6 +20,35 @@ const RegistrationPage: React.FC = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [showOtpPopup, setShowOtpPopup] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [isOtpVerified, setIsOtpVerified] = useState(false);
+
+
+  // Handle OTP verification
+  const handleOtpVerification = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  
+    // Verify OTP (example: replace with API call)
+    const response = await fetch(`http://localhost:8000/auth/verify-otp?otp=${otp}`, {
+      method: 'POST',
+      body: JSON.stringify(formData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  
+    if (response.ok) {
+      setIsOtpVerified(true);
+      alert('Registration successful');
+      setTimeout(() => {
+        navigate("/login")
+      }, 2000)
+    } else {
+      alert('Invalid OTP');
+    }
+  };
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -29,7 +58,7 @@ const RegistrationPage: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const { name, surname, email, password, confirmPassword } = formData;
 
@@ -45,30 +74,19 @@ const RegistrationPage: React.FC = () => {
       setSuccess(null);
       return;
     }
-
-    fetch("http://localhost:8000/api/users", {
+    // Send email for OTP (example: replace with API call)
+    const response = await fetch('http://localhost:8000/auth/send-otp?email=' + email, {
       method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData)
-    }).then(response => {
-      if (response.status === 201) {
-        setSuccess('Registrazione avvenuta con successo!');
-        setError(null);
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000)
-      } else {
-        return response.json().then(errorData => {
-          setError(errorData)
-        })
-      }
-    })
+    });
     
-    
+    if (response.ok) {
+      // OTP sent, show the OTP input popup
+      setShowOtpPopup(true);
+    } else {
+      alert('Error sending OTP');
+    }
   };
-
+  const handleOtpChange = ( e: React.ChangeEvent<HTMLInputElement>) => setOtp(e.target.value);
   return (
     <div style={styles.container}>
       <form onSubmit={handleSubmit} style={styles.form}>
@@ -141,6 +159,35 @@ const RegistrationPage: React.FC = () => {
           Registrati
         </button>
       </form>
+      {/* OTP Popup */}
+      {showOtpPopup && !isOtpVerified && (
+        <div style={styles.otpPopup}>
+          <div style={styles.otpPopupContent}>
+            <h3>Enter OTP</h3>
+            <input
+              type="text"
+              value={otp}
+              onChange={handleOtpChange}
+              placeholder="Enter OTP"
+              style={styles.otpPopupInput}
+              required
+            />
+            <br />
+            <button
+              onClick={handleOtpVerification}
+              style={styles.otpPopupButton}
+            >
+              Verify OTP
+            </button>
+            <button
+              onClick={() => setShowOtpPopup(false)}
+              style={styles.otpPopupButtonCancel}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -195,6 +242,58 @@ const styles: { [key: string]: React.CSSProperties } = {
     color: 'green',
     marginBottom: '15px',
     textAlign: 'center',
+  },
+  otpPopup: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1000,
+  },
+  otpPopupContent: {
+    backgroundColor: 'white',
+    padding: '20px',
+    borderRadius: '8px',
+    textAlign: 'center',
+    width: '300px',
+  },
+  otpPopupInput: {
+    width: '80%',
+    padding: '8px',
+    margin: '10px 0',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+  },
+  otpPopupButton: {
+    marginTop: '10px',
+    width: '48%',
+    padding: '10px',
+    backgroundColor: '#007bff',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+  },
+  otpPopupButtonCancel: {
+    marginTop: '10px',
+    width: '48%',
+    padding: '10px',
+    backgroundColor: '#dc3545',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+  },
+  otpPopupButtonHover: {
+    backgroundColor: '#0056b3',
+  },
+  otpPopupButtonCancelHover: {
+    backgroundColor: '#c82333',
   },
 };
 

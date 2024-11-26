@@ -1,6 +1,8 @@
 package com.web.web_app.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -34,6 +36,7 @@ public class UserController {
     @Autowired
     private ModelMapper modelMapper;
 
+
     @GetMapping
     public List<UserDto> getAllUsers() {
         return userService.getAll().stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
@@ -41,8 +44,8 @@ public class UserController {
     
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userdto) {
-        User userRequest = modelMapper.map(userdto, User.class);
 
+        User userRequest = modelMapper.map(userdto, User.class);
         // Save hashed password
         userRequest.setPassword(userService.hashPassword(userRequest.getPassword()));
 
