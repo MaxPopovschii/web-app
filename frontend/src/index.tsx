@@ -9,8 +9,9 @@ import HomePage from './layout/HomePage';
 import Layout from './layout/Layout';
 import LoginPage from './layout/LoginPage';
 import RegistrationPage from './layout/RegistrationPage';
+import TravelMap from './components/TravelMap';
 
-
+ export const googleAPIKey = 'AIzaSyBlF7YCQMhpBMZyPjGIntok5Ksw-zrVg44'
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/layout",
     element:<Layout/>,
+  },
+  {
+    path: "/map",
+    element: <TravelMap />,
   }
 ]);
 
