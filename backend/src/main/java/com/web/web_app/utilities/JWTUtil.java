@@ -1,4 +1,4 @@
-package com.web.web_app.config;
+package com.web.web_app.utilities;
 
 import java.util.Date;
 

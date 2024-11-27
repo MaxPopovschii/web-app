@@ -5,7 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import com.web.web_app.config.JWTUtil;
+import com.web.web_app.utilities.JWTUtil;
 import com.web.web_app.model.User;
 
 @Service

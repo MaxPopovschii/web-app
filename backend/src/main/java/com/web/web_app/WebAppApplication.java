@@ -12,13 +12,13 @@ import com.web.web_app.services.UserService;
 public class WebAppApplication {
 
 
-	@Bean
-	public ModelMapper modelMapper() {
+    @Bean
+    ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
 
-	@Bean
-	public UserService userService() {
+    @Bean
+    UserService userService() {
 		return new UserService();
 	}
 

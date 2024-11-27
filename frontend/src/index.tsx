@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
@@ -10,8 +10,10 @@ import Layout from './layout/Layout';
 import LoginPage from './layout/LoginPage';
 import RegistrationPage from './layout/RegistrationPage';
 import TravelMap from './components/TravelMap';
+import PrivateRoute from './utils/PrivateRoute';
 
  export const googleAPIKey = 'AIzaSyBlF7YCQMhpBMZyPjGIntok5Ksw-zrVg44'
+ const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
 const router = createBrowserRouter([
   {
@@ -28,11 +30,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard/>,
+    element: <PrivateRoute isAuthenticated={isAuthenticated}><Dashboard/></PrivateRoute>,
   },
   {
     path: "/layout",
-    element:<Layout/>,
+    element:<PrivateRoute isAuthenticated={isAuthenticated}><Layout/></PrivateRoute>,
   },
   {
     path: "/map",

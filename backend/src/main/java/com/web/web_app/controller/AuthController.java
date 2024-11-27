@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web.web_app.config.JWTUtil;
+import com.web.web_app.utilities.JWTUtil;
 import com.web.web_app.dto.LoginDto;
 import com.web.web_app.dto.UserDto;
 import com.web.web_app.model.User;
@@ -78,7 +78,7 @@ public class AuthController {
             // Save hashed password
             userRequest.setPassword(userService.hashPassword(userRequest.getPassword()));
 
-            User user = userService.create(userRequest);
+            userService.create(userRequest);
             // Remove OTP from storage (for security reasons)
             otpStorage.remove(userdto.getEmail());
 
