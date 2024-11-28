@@ -6,14 +6,12 @@ import {
 } from "react-router-dom";
 import Dashboard from './components/Dashboard';
 import HomePage from './layout/HomePage';
-import Layout from './layout/Layout';
 import LoginPage from './layout/LoginPage';
 import RegistrationPage from './layout/RegistrationPage';
 import TravelMap from './components/TravelMap';
-import PrivateRoute from './utils/PrivateRoute';
+import DashboardLayoutBasic from './layout/Layout';
 
  export const googleAPIKey = 'AIzaSyBlF7YCQMhpBMZyPjGIntok5Ksw-zrVg44'
- const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
 const router = createBrowserRouter([
   {
@@ -30,11 +28,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <PrivateRoute isAuthenticated={isAuthenticated}><Dashboard/></PrivateRoute>,
+    element: <Dashboard/>,
   },
   {
     path: "/layout",
-    element:<PrivateRoute isAuthenticated={isAuthenticated}><Layout/></PrivateRoute>,
+    element:<DashboardLayoutBasic/>,
   },
   {
     path: "/map",

@@ -35,8 +35,8 @@ const LoginPage: React.FC = () => {
       if (response.status === 200) {
         setError(null)
         setTimeout(() => {
-          navigate("/dashboard")
-        }, 2000)
+          navigate("/layout")
+        }, 1000)
         return  response.json();
       } else {
         return response.json().then(errorData => {
@@ -79,7 +79,7 @@ const LoginPage: React.FC = () => {
           Accedi
         </button>
         <button type="button" onClick={() => navigate("/")} style={styles.buttonBack}>
-          Torna indietro
+          Indietro
         </button>
       </form>
     </div>

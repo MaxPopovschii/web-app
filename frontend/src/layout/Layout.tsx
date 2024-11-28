@@ -1,110 +1,118 @@
-import MenuIcon from "@mui/icons-material/Menu";
-import {
-  AppBar,
-  Avatar,
-  Box,
-  Divider,
-  Drawer,
-  IconButton,
-  List,
-  ListItemButton,
-  ListItemText,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import { useState } from "react";
-import Dashboard from "../components/Dashboard";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { createTheme } from '@mui/material/styles';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import DescriptionIcon from '@mui/icons-material/Description';
+import LayersIcon from '@mui/icons-material/Layers';
+import { AppProvider, type Navigation } from '@toolpad/core/AppProvider';
+import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+import { useDemoRouter } from '@toolpad/core/internal';
 
-// Простая компонента для профиля пользователя
-const UserProfile = () => (
-  <Box sx={{ display: "flex", alignItems: "center", padding: 1 }}>
-    <Avatar sx={{ marginRight: 2, bgcolor: "primary.main", fontSize: "1.2rem" }}>
-      U
-    </Avatar>
-    <Typography variant="h6" sx={{ fontWeight: "bold", color: "white" }}>
-      Username
-    </Typography>
-  </Box>
-);
+const NAVIGATION: Navigation = [
+  {
+    kind: 'header',
+    title: 'Main items',
+  },
+  {
+    segment: 'dashboard',
+    title: 'Dashboard',
+    icon: <DashboardIcon />,
+  },
+  {
+    segment: 'orders',
+    title: 'Orders',
+    icon: <ShoppingCartIcon />,
+  },
+  {
+    kind: 'divider',
+  },
+  {
+    kind: 'header',
+    title: 'Analytics',
+  },
+  {
+    segment: 'reports',
+    title: 'Reports',
+    icon: <BarChartIcon />,
+    children: [
+      {
+        segment: 'sales',
+        title: 'Sales',
+        icon: <DescriptionIcon />,
+      },
+      {
+        segment: 'traffic',
+        title: 'Traffic',
+        icon: <DescriptionIcon />,
+      },
+    ],
+  },
+  {
+    segment: 'integrations',
+    title: 'Integrations',
+    icon: <LayersIcon />,
+  },
+];
 
+const demoTheme = createTheme({
+  cssVariables: {
+    colorSchemeSelector: 'data-toolpad-color-scheme',
+  },
+  colorSchemes: { light: true, dark: true },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 600,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
 
-
-
-// Основной Layout с боковым меню и шапкой
-const Layout = () => {
-  const [open, setOpen] = useState(false); // Drawer open/close state
-  const [currentPage, setCurrentPage] = useState("dashboard"); // State to track current page
-
-  const toggleDrawer = () => setOpen(!open);
-
-  const handleNavigation = (page: string) => {
-    setCurrentPage(page);
-    setOpen(false); // Закрываем drawer после выбора элемента меню
-  };
-
+function DemoPageContent({ pathname }: { pathname: string }) {
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      {/* Боковое меню */}
-      <Drawer
-        sx={{
-          width: 100,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: 100,
-            boxSizing: "border-box",
-            backgroundColor: "background.default",
-            borderRight: "none",
-            boxShadow: 3,
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <List sx={{ paddingTop: 2 }}>
-          <ListItemButton onClick={() => handleNavigation("dashboard")}>
-            <ListItemText primary="Dashboard" sx={{ color: "text.primary" }} />
-          </ListItemButton>
-          <ListItemButton onClick={() => handleNavigation("profile")}>
-            <ListItemText primary="Profile" sx={{ color: "text.primary" }} />
-          </ListItemButton>
-          <Divider sx={{ my: 2 }} />
-          {/* Добавьте дополнительные элементы меню по мере необходимости */}
-        </List>
-      </Drawer>
-
-      {/* Основной контент */}
-      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-        {/* Шапка с кнопкой меню и профилем */}
-        <AppBar position="sticky" sx={{ backgroundColor: "primary.main", boxShadow: 3 }}>
-          <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer}>
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              Ecological Footprint App
-            </Typography>
-            <UserProfile />
-          </Toolbar>
-        </AppBar>
-
-        {/* Основной контент с динамическим отображением */}
-        <Box
-          sx={{
-            padding: 3,
-            marginTop: 8,
-            flexGrow: 1,
-            backgroundColor: "background.paper",
-            width: "100%", // Занимает всю ширину экрана
-          }}
-        >
-          {currentPage === "dashboard" && <Dashboard />}
-          {currentPage === "profile" && <UserProfile />}
-          {/* Вы можете добавить больше компонентов для других страниц */}
-        </Box>
-      </Box>
+    <Box
+      sx={{
+        py: 4,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        textAlign: 'center',
+      }}
+    >
+      <Typography>Dashboard content for {pathname}</Typography>
     </Box>
   );
-};
+}
 
-export default Layout;
+interface DemoProps {
+  window?: () => Window;
+}
+
+export default function DashboardLayoutBasic(props: DemoProps) {
+  const { window } = props;
+
+  const router = useDemoRouter('/dashboard');
+
+  // Remove this const when copying and pasting into your project.
+  const demoWindow = window !== undefined ? window() : undefined;
+
+  return (
+    // preview-start
+    <AppProvider
+      navigation={NAVIGATION}
+      router={router}
+      theme={demoTheme}
+      window={demoWindow}
+    >
+      <DashboardLayout>
+        <DemoPageContent pathname={router.pathname} />
+      </DashboardLayout>
+    </AppProvider>
+    // preview-end
+  );
+}

@@ -158,6 +158,9 @@ const RegistrationPage: React.FC = () => {
         <button type="submit" style={styles.button}>
           Registrati
         </button>
+        <button type="submit" onClick={() => navigate("/")} style={styles.buttonBack}>
+          Indietro
+        </button>
       </form>
       {/* OTP Popup */}
       {showOtpPopup && !isOtpVerified && (
@@ -232,6 +235,18 @@ const styles: { [key: string]: React.CSSProperties } = {
     borderRadius: '4px',
     cursor: 'pointer',
     fontSize: '16px',
+    marginTop: '16px'
+  },
+  buttonBack: {
+    width: '100%',
+    padding: '10px',
+    backgroundColor: '#007BFF',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    marginTop: '16px'
   },
   error: {
     color: 'red',
