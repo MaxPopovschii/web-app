@@ -11,7 +11,6 @@ import RegistrationPage from './layout/RegistrationPage';
 import TravelMap from './components/TravelMap';
 import DashboardLayoutBasic from './layout/Layout';
 
- export const googleAPIKey = 'AIzaSyBlF7YCQMhpBMZyPjGIntok5Ksw-zrVg44'
 
 const router = createBrowserRouter([
   {
