@@ -22,6 +22,7 @@
     "@vis.gl/react-google-maps": "^1.4.1",
     "axios": "^1.7.8",
     "chart.js": "^4.4.6",
+    "dotenv": "^16.4.7",
     "leaflet": "^1.9.4",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
@@ -58,6 +59,10 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.3.3"
+    "@types/react-router-dom": "^5.3.3",
+    "crypto-browserify": "^3.12.1",
+    "dotenv-webpack": "^8.1.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1"
   }
 }

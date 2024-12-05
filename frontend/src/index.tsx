@@ -8,9 +8,9 @@ import Dashboard from './components/Dashboard';
 import HomePage from './layout/HomePage';
 import LoginPage from './layout/LoginPage';
 import RegistrationPage from './layout/RegistrationPage';
-import TravelMap from './components/TravelMap';
-import DashboardLayoutBasic from './layout/Layout';
 
+import DashboardLayoutBasic from './layout/Layout';
+import Wrapper from './components/Wrapper';
 
 const router = createBrowserRouter([
   {
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/map",
-    element: <TravelMap />,
+    element: <Wrapper/>,
   }
 ]);
 

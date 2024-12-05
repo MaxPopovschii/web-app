@@ -1,16 +1,26 @@
-import React from "react";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import React, { useState } from "react";
+import { Map, Marker} from "@vis.gl/react-google-maps";
 
-export default function TravelMap() {
-  const position = {lat: 61.2176, lng: -149.8997};
+const TravelMap = () => {
+  // shows marker on London by default
+  const [markerLocation, setMarkerLocation] = useState({
+    lat: 51.509865,
+    lng: -0.118092,
+  });
+
   return (
-    <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-      <TileLayer url={""}      />
-      <Marker position={[51.505, -0.09]}>
-        <Popup>
-          This is a popup
-        </Popup>
-      </Marker>
-    </MapContainer>
+    <div className="map-container" style={{height: "500px", width: "50%", border: "2px solid black"}}>
+      <Map
+        style={{ borderRadius: "20px" }}
+        defaultZoom={13}
+        defaultCenter={markerLocation}
+        gestureHandling={"greedy"}
+        disableDefaultUI
+      >
+        <Marker position={markerLocation} />
+      </Map>
+    </div>
   );
 }
+
+export default TravelMap;
