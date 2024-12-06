@@ -1,7 +1,9 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, List, ListItem, Stack, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react'
 import Wrapper from '../components/Wrapper';
 import VehicleSearch from '../utils/VehiclesSearch';
+import DeleteIcon from "@mui/icons-material/Delete";
+import HouseActivitiesDialog from '../components/HouseAtivitiesDialog';
 
 type Activity = 'Trasporto' | 'Alimentazione' | 'Casa' | 'Viaggi' | 'Altro';
 
@@ -11,12 +13,56 @@ interface CarData {
     fuelType: 'Benzina' | 'Diesel' | 'Elettrica' | 'Ibrida';
     fuelConsumption: number; // L/100km
 }
+interface FoodItem {
+  name: string;
+  calories: number;
+  proteins: number;
+  carbs: number;
+  fats: number;
+}
+
+const foodDatabase: FoodItem[] = [
+  { name: "Pane integrale", calories: 250, proteins: 9, carbs: 45, fats: 3 },
+  { name: "Latte intero", calories: 60, proteins: 3, carbs: 5, fats: 3 },
+  { name: "Marmellata senza zucchero", calories: 150, proteins: 0, carbs: 38, fats: 0 },
+  { name: "Uova", calories: 70, proteins: 6, carbs: 1, fats: 5 },
+  { name: "Yogurt greco", calories: 100, proteins: 10, carbs: 4, fats: 2 },
+];
 
 const ActivityLayout: React.FC = () => {
     const [open, setOpen] = useState(false); // Stato per la finestra modale
     const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null); // Stato per l'attività selezionata
     const [activityData, setActivityData] = useState(''); // Stato per i dati inseriti
     const [ecoFootprint, setEcoFootprint] = useState<number | null>(null); // Stato per l'impronta ecologica
+    const [mealType, setMealType] = useState<string | null>(null);
+    const [selectedFoods, setSelectedFoods] = useState<FoodItem[]>([]);
+    const [foodInput, setFoodInput] = useState("");
+  
+    const handleAddFood = (foodName: string) => {
+      const food = foodDatabase.find((item) => item.name === foodName);
+      if (food) {
+        setSelectedFoods((prev) => [...prev, food]);
+      }
+      setFoodInput("");
+    };
+  
+    const handleRemoveFood = (index: number) => {
+      setSelectedFoods((prev) => prev.filter((_, i) => i !== index));
+    };
+  
+    const calculateTotals = () => {
+      return selectedFoods.reduce(
+        (totals, food) => ({
+          calories: totals.calories + food.calories,
+          proteins: totals.proteins + food.proteins,
+          carbs: totals.carbs + food.carbs,
+          fats: totals.fats + food.fats,
+        }),
+        { calories: 0, proteins: 0, carbs: 0, fats: 0 }
+      );
+    };
+  
+    const totals = calculateTotals();
 
     const handleActivityClick = (activity: Activity): void => {
         setSelectedActivity(activity); // Imposta l'attività selezionata
@@ -174,21 +220,50 @@ const ActivityLayout: React.FC = () => {
       </Button>
     </Stack>
     {/* Finestra Modale Generica */}
-    <Dialog open={open} onClose={handleCloseModal}>
+    <Dialog open={open} onClose={handleCloseModal} style={{height: "550px"}} draggable={true}>
         <DialogTitle>{selectedActivity ? `Inserisci dati per ${selectedActivity}` : 'Inserisci dati'}</DialogTitle>
         <DialogContent>
           {selectedActivity === 'Alimentazione' && (
-            <TextField
-              autoFocus
-              margin="dense"
-              label="Cosa hai mangiato?"
-              type="text"
-              fullWidth
-              variant="outlined"
-              value={activityData}
-              onChange={handleDataChange}
-              sx={{ marginBottom: 2 }}
-            />
+            <Box>
+              <Typography variant="subtitle1" style={{justifySelf: 'center'}}>Seleziona il tipo di pasto</Typography>
+              <Button variant="outlined" onClick={() => setMealType("Colazione")} style={{ margin: "8px" }}>
+                Colazione
+              </Button>
+              <Button variant="outlined" onClick={() => setMealType("Pranzo")} style={{ margin: "8px" }}>
+                Pranzo
+              </Button>
+              <Button variant="outlined" onClick={() => setMealType("Cena")} style={{ margin: "8px" }}>
+                Cena
+              </Button>
+              {mealType && (
+                <>
+                  <Typography variant="h6" style={{ marginTop: "16px" }}>
+                    {mealType}
+                  </Typography>
+                  <Autocomplete
+                    freeSolo
+                    options={foodDatabase.map((food) => food.name)}
+                    value={foodInput}
+                    onInputChange={(_, value) => setFoodInput(value)}
+                    renderInput={(params) => <TextField {...params} label="Cerca alimento" variant="outlined" />}
+                    onChange={(_, value) => value && handleAddFood(value)}
+                  />
+                  <List>
+                    {selectedFoods.map((food, index) => (
+                      <ListItem key={index}>
+                        {food.name} - {food.calories} kcal
+                        <IconButton edge="end" onClick={() => handleRemoveFood(index)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </ListItem>
+                    ))}
+                  </List>
+                  <Typography variant="subtitle2" style={{ marginTop: "16px" }}>
+                    Totali: {totals.calories} kcal, {totals.proteins}g proteine, {totals.carbs}g carboidrati, {totals.fats}g grassi
+                  </Typography>
+                </>
+              )}
+            </Box>
           )}
 
           {selectedActivity === 'Trasporto' && (
@@ -199,17 +274,7 @@ const ActivityLayout: React.FC = () => {
           )}
 
           {selectedActivity === 'Casa' && (
-            <TextField
-              autoFocus
-              margin="dense"
-              label="Cosa hai fatto in casa oggi?"
-              type="text"
-              fullWidth
-              variant="outlined"
-              value={activityData}
-              onChange={handleDataChange}
-              sx={{ marginBottom: 2 }}
-            />
+            <HouseActivitiesDialog />
           )}
 
           {selectedActivity === 'Viaggi' && (
