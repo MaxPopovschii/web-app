@@ -1,15 +1,17 @@
-import * as React from 'react';
+
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { createTheme } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LayersIcon from '@mui/icons-material/Layers';
-import { AppProvider, type Navigation } from '@toolpad/core/AppProvider';
+import { AppProvider, Session, type Navigation } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { useDemoRouter } from '@toolpad/core/internal';
+import Dashboard from '../components/Dashboard';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import Wrapper from '../components/Wrapper';
+import MapsUgcIcon from '@mui/icons-material/MapsUgc';
+import React from 'react';
+import ecoFootprintTheme from '../utils/EcoFootPrintTheme';
+import ActivityLayout from './ActivityLayout';
 
 const NAVIGATION: Navigation = [
   {
@@ -22,97 +24,80 @@ const NAVIGATION: Navigation = [
     icon: <DashboardIcon />,
   },
   {
-    segment: 'orders',
-    title: 'Orders',
-    icon: <ShoppingCartIcon />,
+    segment: 'map',
+    title: 'Maps',
+    icon: <MapsUgcIcon />,
   },
   {
-    kind: 'divider',
-  },
-  {
-    kind: 'header',
-    title: 'Analytics',
-  },
-  {
-    segment: 'reports',
-    title: 'Reports',
-    icon: <BarChartIcon />,
-    children: [
-      {
-        segment: 'sales',
-        title: 'Sales',
-        icon: <DescriptionIcon />,
-      },
-      {
-        segment: 'traffic',
-        title: 'Traffic',
-        icon: <DescriptionIcon />,
-      },
-    ],
-  },
-  {
-    segment: 'integrations',
-    title: 'Integrations',
-    icon: <LayersIcon />,
+    segment: 'activity',
+    title: 'Activity',
+    icon: <PostAddIcon/>
   },
 ];
 
-const demoTheme = createTheme({
-  cssVariables: {
-    colorSchemeSelector: 'data-toolpad-color-scheme',
-  },
-  colorSchemes: { light: true, dark: true },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 600,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-});
-
-function DemoPageContent({ pathname }: { pathname: string }) {
-  return (
-    <Box
-      sx={{
-        py: 4,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-      }}
-    >
-      <Typography>Dashboard content for {pathname}</Typography>
-    </Box>
-  );
-}
-
-interface DemoProps {
-  window?: () => Window;
-}
-
-export default function DashboardLayoutBasic(props: DemoProps) {
-  const { window } = props;
+export default function DashboardLayoutBasic() {
 
   const router = useDemoRouter('/dashboard');
+  const [session, setSession] = React.useState<Session | null>({
+    user: {
+      name: 'Maxim Popovschii',
+      email: 'maxpopovshii@gmail.com',
+      image: 'https://avatars.githubusercontent.com/u/19550456',
+    },
+  });
+  const authentication = React.useMemo(() => {
+    return {
+      signIn: () => {
+        setSession({
+          user: {
+            name: 'Maxim Popovschii',
+            email: 'maxpopovshii@gmail.com',
+            image: 'https://avatars.githubusercontent.com/u/19550456',
+          },
+        });
+      },
+      signOut: () => {
+        setSession(null);
+      },
+    };
+  }, []);
 
-  // Remove this const when copying and pasting into your project.
-  const demoWindow = window !== undefined ? window() : undefined;
+    // Funzione per determinare il contenuto basato sul segmento
+    const renderContent = () => {
+      switch (router.pathname) {
+        case '/dashboard':
+          return <Dashboard />;
+        case '/map':
+          return <Wrapper />;
+        case '/activity':
+          return <ActivityLayout/>
+        default:
+          return <Typography variant="h4">Pagina non trovata.</Typography>;
+      }
+    };
 
   return (
-    // preview-start
     <AppProvider
       navigation={NAVIGATION}
+      branding={{
+        logo: <img 
+        src="https://mui.com/static/logo.png" 
+        alt="MUI logo" 
+        style={{ filter: ecoFootprintTheme.palette.mode === 'dark' ? 'invert(1)' : 'none' }}
+      />,
+        title: 'ECO',
+      }}
+      session={session}
+      authentication={authentication}
       router={router}
-      theme={demoTheme}
-      window={demoWindow}
+      theme={ecoFootprintTheme}
     >
-      <DashboardLayout>
-        <DemoPageContent pathname={router.pathname} />
+      <DashboardLayout defaultSidebarCollapsed>
+        <Box>
+          {/* Contenuto dinamico */}
+          {renderContent()}
+        </Box>
       </DashboardLayout>
     </AppProvider>
-    // preview-end
   );
 }

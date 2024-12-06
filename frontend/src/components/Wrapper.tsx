@@ -3,9 +3,9 @@ import TravelMap from "./TravelMap"
 
 
 const  Wrapper = ()  => {
-    const key = process.env.GOOGLE_API_KEY || "";
+    const key = "AIzaSyBlF7YCQMhpBMZyPjGIntok5Ksw-zrVg44";
   return (
-    <div className="wrapper" style={{display: "flex", padding: "5rem", justifyContent: "space-evenly"}}>
+    <div className="wrapper" style={{display: "flex",  justifyContent: "space-evenly"}}>
         <APIProvider apiKey={key}>
             <TravelMap></TravelMap>
         </APIProvider>

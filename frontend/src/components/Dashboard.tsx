@@ -88,7 +88,6 @@ const Dashboard: React.FC = () => {
 
       {/* Period Selector */}
       <FormControl sx={{ marginBottom: "20px", minWidth: 200 }}>
-        <InputLabel id="period-select-label">View Period</InputLabel>
         <Select
           labelId="period-select-label"
           value={period}

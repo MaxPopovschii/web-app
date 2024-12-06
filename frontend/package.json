@@ -20,7 +20,7 @@
     "@types/react-dom": "^18.3.1",
     "@types/react-leaflet": "^2.8.3",
     "@vis.gl/react-google-maps": "^1.4.1",
-    "axios": "^1.7.8",
+    "axios": "^1.7.9",
     "chart.js": "^4.4.6",
     "dotenv": "^16.4.7",
     "leaflet": "^1.9.4",
@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "@types/google.maps": "^3.58.1",
     "@types/react-router-dom": "^5.3.3",
     "crypto-browserify": "^3.12.1",
     "dotenv-webpack": "^8.1.0",
