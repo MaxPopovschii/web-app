@@ -1,8 +1,6 @@
 package com.web.web_app.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -16,7 +14,6 @@ import com.web.web_app.dto.UserDto;
 import com.web.web_app.model.User;
 import com.web.web_app.services.UserService;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")   // http://localhost:3000/login
 @RequestMapping("/api/users")
 public class UserController {
     

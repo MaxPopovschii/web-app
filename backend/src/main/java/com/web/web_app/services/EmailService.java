@@ -23,7 +23,7 @@ public class EmailService {
     // Send OTP to email
     public void sendOTP(String toEmail, String otp) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("maxpopovschii@gmail.com"); 
+        message.setFrom("no-reply@ecofootprint.com"); 
         message.setTo(toEmail);
         message.setSubject("Your OTP Code");
         message.setText("Your OTP code is: " + otp);

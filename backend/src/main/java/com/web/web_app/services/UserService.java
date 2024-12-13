@@ -8,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.web.web_app.model.User;
 import com.web.web_app.repository.UserRepo;
 
-public class UserService implements Service<User> {
+public class UserService  extends UserDetailsServiceAdapter implements Service<User>{
     @Autowired
     private UserRepo userRepo;
 

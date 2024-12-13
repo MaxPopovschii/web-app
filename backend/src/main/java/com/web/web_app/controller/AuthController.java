@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,8 @@ import com.web.web_app.model.User;
 import com.web.web_app.services.EmailService;
 import com.web.web_app.services.UserService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -41,18 +44,47 @@ public class AuthController {
     private static Map<String, String> otpStorage = new HashMap<>();
 
 
+    @PostMapping("/registration")
+    public ResponseEntity<?> registration(@RequestBody UserDto userdto) {
+        User userRequest = modelMapper.map(userdto, User.class);
+        // Save hashed password
+        userRequest.setPassword(userService.hashPassword(userRequest.getPassword()));
 
+        User user = userService.create(userRequest);
+
+        UserDto postResponse = modelMapper.map(user, UserDto.class);
+
+        return new ResponseEntity<UserDto>(postResponse, HttpStatus.CREATED);
+    }
+    
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto logindto) {
+    public ResponseEntity<?> login(@RequestBody LoginDto logindto, HttpServletResponse response) {
         User user = userService.getByEmail(logindto.getEmail());
-        if (userService.matchesPassword(logindto.getPassword(), user.getPassword())) {
+        if (user != null || userService.matchesPassword(logindto.getPassword(), user.getPassword())) {
             String jwtToken = jwtUtil.generateToken(user.getEmail());
             
-            return ResponseEntity.ok(jwtToken);
+            Cookie cookie = new Cookie("token", jwtToken);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(7 * 24 * 60 * 60);
+            response.addCookie(cookie);
+            return ResponseEntity.ok("Login ok");
         } else {
-            return  new ResponseEntity<String>("Email or password wrong.", HttpStatusCode.valueOf(400));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
     }
+    @PostMapping("logout")
+    public ResponseEntity<String> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return ResponseEntity.ok("Logout");
+    }
+    
 
     @PostMapping("/send-otp")
     public  ResponseEntity<String> sendOtp(@RequestParam String email) {
