@@ -25,7 +25,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity; enable with proper config
+                .csrf(csrf -> csrf.disable())
+                .cors().disable()
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/auth/login", "/auth/logout", "/auth/registration").permitAll() // Public endpoints
                                 .anyRequest().authenticated() // All other endpoints require authentication
@@ -35,9 +36,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    public void configure(HttpSecurity http) {
-        http.cors().and().csrf().disable();
-    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
