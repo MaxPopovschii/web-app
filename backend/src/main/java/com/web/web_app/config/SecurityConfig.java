@@ -35,6 +35,10 @@ public class SecurityConfig {
         return http.build();
     }
 
+    public void configure(HttpSecurity http) {
+        http.cors().and().csrf().disable();
+    }
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
