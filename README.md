@@ -100,12 +100,22 @@ Con **EcoPasso**, monitorare l'impronta ecologica diventa semplice e accessibile
 
 ### Frontend (Client)
 
-- **Linguaggio:** JavaScript
+- **Linguaggi:** TypeScript/JavaScript
 - **Framework:** [React Native](https://reactnative.dev/) con [Expo](https://expo.dev/)
-- **Funzionalità:**
-  - Interfaccia moderna e user-friendly.
-  - Navigazione fluida e intuitiva.
-  - Visualizzazioni grafiche accattivanti dei tuoi progressi.
+- **Router:** [Expo Router](https://expo.github.io/router/)
+- **Librerie principali:**
+  - **@react-navigation**: Per la gestione della navigazione fluida.
+  - **React Native Paper**: Per un'interfaccia utente moderna basata su Material Design.
+  - **React Native Maps**: Per l'integrazione di mappe interattive e personalizzate.
+  - **React Native Chart Kit**: Per la visualizzazione di grafici e dati personalizzati.
+  - **React Native Webview**: Per l'integrazione di componenti web.
+- **State Management:** Utilizzo di hook e contesto React per la gestione dello stato locale.
+- **Tipizzazione:** Utilizzo di **TypeScript** per garantire un codice più robusto e manutenibile.
+- **Altri strumenti:**
+  - **React Native Gesture Handler**: Per gestire gesture fluide e intuitive.
+  - **Async Storage**: Per la memorizzazione locale dei dati utente.
+  - **Expo Font e Icons**: Per un design accattivante con font personalizzati e icone.
+  - **Expo Linear Gradient**: Per effetti visivi avanzati tramite gradienti.
 
 ### Backend (Server)
 
@@ -219,25 +229,25 @@ erDiagram
 
 ## ⚙️ Esempi di Codice
 
-### Frontend (React Native)
+### Frontend (React Native con TypeScript)
 
-```javascript
-// Esempio di fetch dei dati dell'impronta ecologica
-useEffect(() => {
-  fetch('https://api.ecopasso.com/user/footprint')
-    .then(response => response.json())
-    .then(data => setFootprint(data));
-}, []);
-```
+```typescript
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomeScreen from './screens/HomeScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
-### Backend (Spring Boot)
+const Tab = createBottomTabNavigator();
 
-```java
-// Endpoint per ottenere l'impronta ecologica dell'utente
-@GetMapping("/user/footprint")
-public ResponseEntity<Footprint> getUserFootprint(@RequestParam Long userId) {
-    Footprint footprint = footprintService.calculate(userId);
-    return ResponseEntity.ok(footprint);
+export default function App(): JSX.Element {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
 }
 ```
 
@@ -274,5 +284,3 @@ cd server
 Scopri come funziona **EcoPasso** con il nostro video dimostrativo:
 
 [![Demo Video](./assets/demo-thumbnail.png)](https://www.youtube.com/watch?v=tuo_video_id)
-
----
