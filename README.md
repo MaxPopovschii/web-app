@@ -84,66 +84,66 @@ Di seguito è riportato lo schema aggiornato del database:
 ```mermaid
 erDiagram
     UTENTI {
-        email PK
-        nome
-        cognome
-        password_hash
-        data_registrazione
-        ultimo_accesso
+        string email
+        string nome
+        string cognome
+        string password_hash
+        datetime data_registrazione
+        datetime ultimo_accesso
     }
     ATTIVITA {
-        id_attivita PK
-        email_utente FK
-        id_tipo_attivita FK
-        data_inserimento
-        note
+        int id_attivita
+        string email_utente
+        int id_tipo_attivita
+        datetime data_inserimento
+        text note
     }
     CATEGORIE {
-        id_categoria PK
-        nome
-        descrizione
+        int id_categoria
+        string nome
+        text descrizione
     }
     TIPIATTIVITA {
-        id_tipo_attivita PK
-        id_categoria FK
-        nome
-        unita_misura
-        fattore_conversione
+        int id_tipo_attivita
+        int id_categoria
+        string nome
+        string unita_misura
+        decimal fattore_conversione
     }
     ATTIVITAALIMENTAZIONE {
-        id_attivita_alimentazione PK
-        id_attivita FK
-        quantita
-        origine_prodotto
-        biologico
-        imballaggio
-        data_consumo
+        int id_attivita_alimentazione
+        int id_attivita
+        decimal quantita
+        string origine_prodotto
+        boolean biologico
+        string imballaggio
+        datetime data_consumo
     }
     ATTIVITACASA {
-        id_attivita_casa PK
-        id_attivita FK
-        data_inizio
-        data_fine
-        quantita
-        lettura_contatore_iniziale
-        lettura_contatore_finale
+        int id_attivita_casa
+        int id_attivita
+        datetime data_inizio
+        datetime data_fine
+        decimal quantita
+        string lettura_contatore_iniziale
+        string lettura_contatore_finale
     }
     ATTIVITATRASPORTO {
-        id_attivita_trasporto PK
-        id_attivita FK
-        mezzo_trasporto
-        punto_partenza
-        punto_arrivo
-        distanza
-        data_viaggio
-        numero_passeggeri
-        tipo_carburante
+        int id_attivita_trasporto
+        int id_attivita
+        string mezzo_trasporto
+        string punto_partenza
+        string punto_arrivo
+        decimal distanza
+        datetime data_viaggio
+        int numero_passeggeri
+        string tipo_carburante
     }
     ECOFOOTPRINT {
-        id_ecofootprint PK
-        id_attivita FK
-        co2_equivalente
-        data_calcolo
+        int id_ecofootprint
+        int id_attivita
+        decimal co2_equivalente
+        datetime data_calcolo
     }
 
     UTENTI ||--o{ ATTIVITA : "ha"
