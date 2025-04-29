@@ -79,71 +79,71 @@ L'**ecofootprint** (impronta ecologica) misura l'impatto delle attività umane s
 
 ## 📊 Schema del Database
 
-Di seguito è riportato lo schema del database aggiornato:
+Di seguito è riportato lo schema aggiornato del database:
 
 ```mermaid
 erDiagram
     UTENTI {
-        varchar(100) email PK
-        varchar(50) nome
-        varchar(50) cognome
-        varchar(255) password_hash
-        datetime data_registrazione
-        datetime ultimo_accesso
+        email PK
+        nome
+        cognome
+        password_hash
+        data_registrazione
+        ultimo_accesso
     }
     ATTIVITA {
-        int id_attivita PK
-        varchar(100) email_utente FK
-        int id_tipo_attivita FK
-        datetime data_inserimento
-        text note
+        id_attivita PK
+        email_utente FK
+        id_tipo_attivita FK
+        data_inserimento
+        note
     }
     CATEGORIE {
-        int id_categoria PK
-        varchar(50) nome
-        text descrizione
+        id_categoria PK
+        nome
+        descrizione
     }
     TIPIATTIVITA {
-        int id_tipo_attivita PK
-        int id_categoria FK
-        varchar(50) nome
-        varchar(20) unita_misura
-        decimal(10,4) fattore_conversione
+        id_tipo_attivita PK
+        id_categoria FK
+        nome
+        unita_misura
+        fattore_conversione
     }
     ATTIVITAALIMENTAZIONE {
-        int id_attivita_alimentazione PK
-        int id_attivita FK
-        decimal(10,2) quantita
-        varchar(50) origine_prodotto
-        tinyint biologico
-        varchar(50) imballaggio
-        datetime data_consumo
+        id_attivita_alimentazione PK
+        id_attivita FK
+        quantita
+        origine_prodotto
+        biologico
+        imballaggio
+        data_consumo
     }
     ATTIVITACASA {
-        int id_attivita_casa PK
-        int id_attivita FK
-        datetime data_inizio
-        datetime data_fine
-        decimal(10,2) quantita
-        varchar(50) lettura_contatore_iniziale
-        varchar(50) lettura_contatore_finale
+        id_attivita_casa PK
+        id_attivita FK
+        data_inizio
+        data_fine
+        quantita
+        lettura_contatore_iniziale
+        lettura_contatore_finale
     }
     ATTIVITATRASPORTO {
-        int id_attivita_trasporto PK
-        int id_attivita FK
-        varchar(50) mezzo_trasporto
-        varchar(100) punto_partenza
-        varchar(100) punto_arrivo
-        decimal(10,2) distanza
-        datetime data_viaggio
-        int numero_passeggeri
-        varchar(50) tipo_carburante
+        id_attivita_trasporto PK
+        id_attivita FK
+        mezzo_trasporto
+        punto_partenza
+        punto_arrivo
+        distanza
+        data_viaggio
+        numero_passeggeri
+        tipo_carburante
     }
     ECOFOOTPRINT {
-        int id_ecofootprint PK
-        int id_attivita FK
-        decimal(10,4) co2_equivalente
-        datetime data_calcolo
+        id_ecofootprint PK
+        id_attivita FK
+        co2_equivalente
+        data_calcolo
     }
 
     UTENTI ||--o{ ATTIVITA : "ha"
