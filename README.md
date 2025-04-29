@@ -1,38 +1,98 @@
-# 🌱 EcoFootprint Tracker
+# 🌿 EcoPasso: Cammina Verso un Futuro Sostenibile
 
-Un'app mobile per calcolare, monitorare e ridurre la propria impronta ecologica. Sviluppata con React Native (Expo) per il client, Spring Boot per il backend e MySQL come database.
+**EcoPasso** è l'app che ti aiuta a calcolare, monitorare e ridurre la tua impronta ecologica. Ogni passo conta per rendere il pianeta un posto migliore.  
+
+Con un design intuitivo e strumenti avanzati, EcoPasso ti guida verso uno stile di vita più sostenibile. 🌍✨
 
 ---
 
 ## 📌 Indice
 
-- [🌍 Cos'è l'Ecofootprint](#-cosè-lecofootprint)
+- [🌍 Cos'è l'Impronta Ecologica](#-cosè-limpronta-ecologica)
 - [🎯 Obiettivi del Progetto](#-obiettivi-del-progetto)
+- [🌟 Benefici dell'Uso di EcoPasso](#-benefici-delluso-di-ecopasso)
 - [🧑‍💻 Tecnologie Utilizzate](#-tecnologie-utilizzate)
 - [📱 Interfaccia Utente](#-interfaccia-utente)
 - [📊 Schema del Database](#-schema-del-database)
 - [⚙️ Esempi di Codice](#️-esempi-di-codice)
-- [🚀 Come Avviare il Progetto](#-come-avviare-il-progetto)
+- [🚀 Come Avviare EcoPasso](#-come-avviare-ecopasso)
 - [📽️ Video Dimostrativo](#️-video-dimostrativo)
-- [📄 Licenza](#-licenza)
 
 ---
 
-## 🌍 Cos'è l'Ecofootprint
+## 🌍 Cos'è l'Impronta Ecologica
 
-L'**ecofootprint** (impronta ecologica) misura l'impatto delle attività umane sull'ambiente, considerando il consumo di risorse naturali e la produzione di emissioni. Monitorare la propria impronta aiuta a:
+L'**impronta ecologica** è un indicatore globale che misura il consumo umano di risorse naturali rispetto alla capacità del pianeta di rigenerarle.  
+Viene calcolata considerando diversi aspetti dell'impatto umano sull'ambiente, tra cui:
 
-- Comprendere il proprio impatto ambientale.
-- Identificare comportamenti sostenibili.
-- Promuovere uno stile di vita responsabile.
+- **Emissioni di gas serra (CO2):** Derivanti da trasporti, produzione di energia, riscaldamento e altre attività.
+- **Consumo di risorse naturali:** Come acqua, cibo, materiali e combustibili fossili.
+- **Produzione di rifiuti:** Inclusi rifiuti non riciclabili e pericolosi.
+- **Uso del suolo:** Per agricoltura, urbanizzazione e deforestazione.
+
+### Tipi di Impronta Ecologica
+
+1. **Impronta di carbonio:** Misura le emissioni di CO2 generate da attività quotidiane.
+2. **Impronta idrica:** Indica il consumo di acqua dolce.
+3. **Impronta dei materiali:** Si riferisce all'uso di risorse come metalli, plastica e legname.
+4. **Impronta alimentare:** Analizza l'impatto della produzione e del consumo di cibo.
+
+### Perché è importante monitorare l'impronta ecologica?
+
+- **Prevenire il sovrasfruttamento:** Il pianeta ha risorse limitate e il sovraconsumo porta a conseguenze irreversibili, come cambiamenti climatici e perdita di biodiversità.
+- **Aumentare la consapevolezza:** Sapere dove e come possiamo ridurre il nostro impatto è il primo passo verso un cambiamento positivo.
+- **Promuovere uno stile di vita sostenibile:** Piccole azioni quotidiane, come ridurre gli sprechi o scegliere fonti di energia rinnovabile, fanno una grande differenza.
+- **Garantire un futuro migliore:** Per noi e per le prossime generazioni.
+
+Con **EcoPasso**, monitorare l'impronta ecologica diventa semplice e accessibile a tutti. 🌿
 
 ---
 
 ## 🎯 Obiettivi del Progetto
 
-- **Educare** gli utenti sull'importanza della sostenibilità.
-- **Fornire** uno strumento intuitivo per calcolare e monitorare l'ecofootprint.
-- **Suggerire** azioni concrete per ridurre l'impatto ambientale.
+**EcoPasso** è stato progettato con una missione chiara: aiutarti a vivere in modo più responsabile e sostenibile. I principali obiettivi includono:
+
+1. **Educazione Ambientale:**
+   - Sensibilizzare gli utenti sull'importanza della sostenibilità.
+   - Fornire informazioni dettagliate sull'impatto ambientale delle loro azioni.
+
+2. **Monitoraggio e Analisi:**
+   - Offrire strumenti per monitorare l'impronta ecologica personale.
+   - Visualizzare i progressi con grafici e report chiari e intuitivi.
+
+3. **Promozione di Azioni Concrete:**
+   - Suggerire abitudini sostenibili, come ridurre gli sprechi di energia o scegliere mezzi di trasporto ecologici.
+   - Premiare i progressi con badge o notifiche motivazionali.
+
+4. **Creazione di una Comunità:**
+   - Connettere gli utenti in una rete globale per condividere consigli e ispirazione.
+   - Favorire il cambiamento collettivo attraverso la collaborazione.
+
+5. **Supporto alle Politiche Ambientali:**
+   - Offrire dati aggregati per supportare iniziative e politiche di sostenibilità.
+   - Collaborare con enti locali e globali per promuovere uno sviluppo sostenibile.
+
+---
+
+## 🌟 Benefici dell'Uso di EcoPasso
+
+### Per gli Utenti:
+
+- **Consapevolezza:** Impara a conoscere il tuo impatto ambientale e come ridurlo.
+- **Risparmio:** Riduci gli sprechi di energia, acqua e risorse, risparmiando anche denaro.
+- **Motivazione:** Raggiungi obiettivi personali e condividi i tuoi successi con la comunità.
+
+### Per il Pianeta:
+
+- **Riduzione delle emissioni:** Promuovendo scelte più ecologiche.
+- **Conservazione delle risorse:** Favorendo un uso più responsabile di acqua, energia e materiali.
+- **Protezione della biodiversità:** Riducendo l'impatto delle attività umane sull'ambiente naturale.
+
+### Per la Società:
+
+- **Educazione collettiva:** Diffondere conoscenze e buone pratiche.
+- **Sviluppo sostenibile:** Supportare comunità e aziende verso un futuro green.
+- **Impatto positivo:** Ogni piccolo passo contribuisce a un cambiamento globale.
 
 ---
 
@@ -43,43 +103,43 @@ L'**ecofootprint** (impronta ecologica) misura l'impatto delle attività umane s
 - **Linguaggio:** JavaScript
 - **Framework:** [React Native](https://reactnative.dev/) con [Expo](https://expo.dev/)
 - **Funzionalità:**
-  - Interfaccia utente responsive.
-  - Navigazione intuitiva.
-  - Visualizzazione grafica dei dati.
+  - Interfaccia moderna e user-friendly.
+  - Navigazione fluida e intuitiva.
+  - Visualizzazioni grafiche accattivanti dei tuoi progressi.
 
 ### Backend (Server)
 
 - **Linguaggio:** Java
 - **Framework:** [Spring Boot](https://spring.io/projects/spring-boot)
 - **Funzionalità:**
-  - API RESTful.
-  - Autenticazione e autorizzazione.
-  - Calcolo e memorizzazione dell'ecofootprint.
+  - API RESTful per comunicazione veloce e sicura.
+  - Autenticazione avanzata.
+  - Calcolo dinamico dell'impronta ecologica.
 
 ### Database
 
 - **Sistema:** [MySQL](https://www.mysql.com/)
 - **Struttura:**
-  - Tabelle per utenti, attività, categorie e impronte ecologiche.
+  - Tabelle ben organizzate per utenti, attività e calcoli ambientali.
 
 ---
 
 ## 📱 Interfaccia Utente
 
 ![Schermata Home](./assets/screenshot-home.png)
-*Schermata principale dell'app.*
+*Benvenuto nella tua dashboard personalizzata.*
 
 ![Calcolo Impronta](./assets/screenshot-calcolo.png)
-*Modulo per il calcolo dell'ecofootprint.*
+*Inserisci i tuoi dati per calcolare l'impatto.*
 
 ![Risultati](./assets/screenshot-risultati.png)
-*Visualizzazione dei risultati e suggerimenti.*
+*Visualizza i tuoi progressi e ricevi consigli utili.*
 
 ---
 
 ## 📊 Schema del Database
 
-Di seguito è riportato lo schema aggiornato del database:
+Ecco uno schema visivo del database che alimenta **EcoPasso**:
 
 ```mermaid
 erDiagram
@@ -155,15 +215,6 @@ erDiagram
     ATTIVITA ||--o{ ECOFOOTPRINT : "calcoli"
 ```
 
-### Descrizione Tabelle
-
-- **UTENTI:** Informazioni sugli utenti registrati.
-- **ATTIVITA:** Attività generali registrate dagli utenti.
-- **CATEGORIE:** Categorie di attività (es. Trasporti, Casa, Alimentazione).
-- **TIPIATTIVITA:** Tipologie di attività con unità di misura e fattori di conversione.
-- **ATTIVITAALIMENTAZIONE, ATTIVITACASA, ATTIVITATRASPORTO:** Dettagli specifici delle attività.
-- **ECOFOOTPRINT:** Calcoli dell'impronta ecologica.
-
 ---
 
 ## ⚙️ Esempi di Codice
@@ -171,9 +222,9 @@ erDiagram
 ### Frontend (React Native)
 
 ```javascript
-// Esempio di fetch dei dati dell'ecofootprint
+// Esempio di fetch dei dati dell'impronta ecologica
 useEffect(() => {
-  fetch('https://api.ecofootprint.com/user/footprint')
+  fetch('https://api.ecopasso.com/user/footprint')
     .then(response => response.json())
     .then(data => setFootprint(data));
 }, []);
@@ -182,7 +233,7 @@ useEffect(() => {
 ### Backend (Spring Boot)
 
 ```java
-// Endpoint per ottenere l'ecofootprint dell'utente
+// Endpoint per ottenere l'impronta ecologica dell'utente
 @GetMapping("/user/footprint")
 public ResponseEntity<Footprint> getUserFootprint(@RequestParam Long userId) {
     Footprint footprint = footprintService.calculate(userId);
@@ -192,7 +243,7 @@ public ResponseEntity<Footprint> getUserFootprint(@RequestParam Long userId) {
 
 ---
 
-## 🚀 Come Avviare il Progetto
+## 🚀 Come Avviare EcoPasso
 
 ### Prerequisiti
 
@@ -220,14 +271,8 @@ cd server
 
 ## 📽️ Video Dimostrativo
 
-Per una panoramica completa dell'applicazione, guarda il video dimostrativo:
+Scopri come funziona **EcoPasso** con il nostro video dimostrativo:
 
 [![Demo Video](./assets/demo-thumbnail.png)](https://www.youtube.com/watch?v=tuo_video_id)
-
----
-
-## 📄 Licenza
-
-Questo progetto è distribuito sotto la licenza MIT. Vedi il file [LICENSE](./LICENSE) per maggiori dettagli.
 
 ---
