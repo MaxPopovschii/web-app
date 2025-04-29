@@ -1,4 +1,3 @@
-
 # 🌱 EcoFootprint Tracker
 
 Un'app mobile per calcolare, monitorare e ridurre la propria impronta ecologica. Sviluppata con React Native (Expo) per il client, Spring Boot per il backend e MySQL come database.
@@ -11,6 +10,7 @@ Un'app mobile per calcolare, monitorare e ridurre la propria impronta ecologica.
 - [🎯 Obiettivi del Progetto](#-obiettivi-del-progetto)
 - [🧑‍💻 Tecnologie Utilizzate](#-tecnologie-utilizzate)
 - [📱 Interfaccia Utente](#-interfaccia-utente)
+- [📊 Schema del Database](#-schema-del-database)
 - [⚙️ Esempi di Codice](#️-esempi-di-codice)
 - [🚀 Come Avviare il Progetto](#-come-avviare-il-progetto)
 - [📽️ Video Dimostrativo](#️-video-dimostrativo)
@@ -60,7 +60,7 @@ L'**ecofootprint** (impronta ecologica) misura l'impatto delle attività umane s
 
 - **Sistema:** [MySQL](https://www.mysql.com/)
 - **Struttura:**
-  - Tabelle per utenti, dati ambientali, cronologia footprint.
+  - Tabelle per utenti, attività, categorie e impronte ecologiche.
 
 ---
 
@@ -74,6 +74,95 @@ L'**ecofootprint** (impronta ecologica) misura l'impatto delle attività umane s
 
 ![Risultati](./assets/screenshot-risultati.png)
 *Visualizzazione dei risultati e suggerimenti.*
+
+---
+
+## 📊 Schema del Database
+
+Di seguito è riportato lo schema del database aggiornato:
+
+```mermaid
+erDiagram
+    UTENTI {
+        varchar(100) email PK
+        varchar(50) nome
+        varchar(50) cognome
+        varchar(255) password_hash
+        datetime data_registrazione
+        datetime ultimo_accesso
+    }
+    ATTIVITA {
+        int id_attivita PK
+        varchar(100) email_utente FK
+        int id_tipo_attivita FK
+        datetime data_inserimento
+        text note
+    }
+    CATEGORIE {
+        int id_categoria PK
+        varchar(50) nome
+        text descrizione
+    }
+    TIPIATTIVITA {
+        int id_tipo_attivita PK
+        int id_categoria FK
+        varchar(50) nome
+        varchar(20) unita_misura
+        decimal(10,4) fattore_conversione
+    }
+    ATTIVITAALIMENTAZIONE {
+        int id_attivita_alimentazione PK
+        int id_attivita FK
+        decimal(10,2) quantita
+        varchar(50) origine_prodotto
+        tinyint biologico
+        varchar(50) imballaggio
+        datetime data_consumo
+    }
+    ATTIVITACASA {
+        int id_attivita_casa PK
+        int id_attivita FK
+        datetime data_inizio
+        datetime data_fine
+        decimal(10,2) quantita
+        varchar(50) lettura_contatore_iniziale
+        varchar(50) lettura_contatore_finale
+    }
+    ATTIVITATRASPORTO {
+        int id_attivita_trasporto PK
+        int id_attivita FK
+        varchar(50) mezzo_trasporto
+        varchar(100) punto_partenza
+        varchar(100) punto_arrivo
+        decimal(10,2) distanza
+        datetime data_viaggio
+        int numero_passeggeri
+        varchar(50) tipo_carburante
+    }
+    ECOFOOTPRINT {
+        int id_ecofootprint PK
+        int id_attivita FK
+        decimal(10,4) co2_equivalente
+        datetime data_calcolo
+    }
+
+    UTENTI ||--o{ ATTIVITA : "ha"
+    CATEGORIE ||--o{ TIPIATTIVITA : "contiene"
+    TIPIATTIVITA ||--o{ ATTIVITA : "classifica"
+    ATTIVITA ||--o{ ATTIVITAALIMENTAZIONE : "dettagli-alimentazione"
+    ATTIVITA ||--o{ ATTIVITACASA : "dettagli-casa"
+    ATTIVITA ||--o{ ATTIVITATRASPORTO : "dettagli-trasporto"
+    ATTIVITA ||--o{ ECOFOOTPRINT : "calcoli"
+```
+
+### Descrizione Tabelle
+
+- **UTENTI:** Informazioni sugli utenti registrati.
+- **ATTIVITA:** Attività generali registrate dagli utenti.
+- **CATEGORIE:** Categorie di attività (es. Trasporti, Casa, Alimentazione).
+- **TIPIATTIVITA:** Tipologie di attività con unità di misura e fattori di conversione.
+- **ATTIVITAALIMENTAZIONE, ATTIVITACASA, ATTIVITATRASPORTO:** Dettagli specifici delle attività.
+- **ECOFOOTPRINT:** Calcoli dell'impronta ecologica.
 
 ---
 
