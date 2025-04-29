@@ -117,14 +117,59 @@ Con **EcoPasso**, monitorare l'impronta ecologica diventa semplice e accessibile
   - **Expo Font e Icons**: Per un design accattivante con font personalizzati e icone.
   - **Expo Linear Gradient**: Per effetti visivi avanzati tramite gradienti.
 
+
 ### Backend (Server)
 
 - **Linguaggio:** Java
 - **Framework:** [Spring Boot](https://spring.io/projects/spring-boot)
-- **Funzionalità:**
-  - API RESTful per comunicazione veloce e sicura.
-  - Autenticazione avanzata.
-  - Calcolo dinamico dell'impronta ecologica.
+- **Funzionalità principali:**
+  - API RESTful per una comunicazione veloce e sicura.
+  - Gestione avanzata dell'autenticazione e autorizzazione utilizzando JWT.
+  - Calcolo dinamico dell'impronta ecologica basato sui dati forniti dagli utenti.
+  - Logging e monitoraggio con strumenti integrati per garantire la stabilità del sistema.
+
+### Esempi di codice
+
+#### Configurazione di un Controller REST
+
+```java
+@RestController
+@RequestMapping("/api/footprint")
+public class FootprintController {
+
+    private final FootprintService footprintService;
+
+    public FootprintController(FootprintService footprintService) {
+        this.footprintService = footprintService;
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<Footprint> getUserFootprint(@PathVariable Long userId) {
+        Footprint footprint = footprintService.calculateFootprint(userId);
+        return ResponseEntity.ok(footprint);
+    }
+}
+```
+
+#### Configurazione di Sicurezza con JWT
+
+```java
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/api/auth/**").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+            .addFilter(new JwtAuthorizationFilter(authenticationManager()));
+    }
+}
+```
+---
 
 ### Database
 
