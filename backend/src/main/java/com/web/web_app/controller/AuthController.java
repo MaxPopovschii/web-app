@@ -1,5 +1,5 @@
 package com.web.web_app.controller;
-
+import org.springframework.web.bind.annotation.CookieValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class AuthController {
 
 
     @PostMapping("/registration")
-    public ResponseEntity<?> registration(@RequestBody UserDto userdto) {
+    public ResponseEntity<?> registration(@Valid @RequestBody UserDto userdto) {
         User userRequest = modelMapper.map(userdto, User.class);
         // Save hashed password
         userRequest.setPassword(userService.hashPassword(userRequest.getPassword()));
@@ -58,7 +58,7 @@ public class AuthController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto logindto, HttpServletResponse response) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDto logindto, HttpServletResponse response) {
         User user = userService.getByEmail(logindto.getEmail());
         if (user != null || userService.matchesPassword(logindto.getPassword(), user.getPassword())) {
             String jwtToken = jwtUtil.generateToken(user.getEmail());
@@ -117,6 +117,36 @@ public class AuthController {
             return ResponseEntity.ok("User registered successfully.");
         } else {
             return ResponseEntity.status(400).body("Invalid OTP.");
+        }
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@RequestParam(required = false) String refreshToken,
+                                          @CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
+                                          HttpServletResponse response) {
+        String tokenToUse = refreshToken != null ? refreshToken : refreshTokenCookie;
+        if (tokenToUse == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Refresh token mancante");
+        }
+        try {
+            String email = jwtUtil.validateRefreshTokenAndRetrieveSubject(tokenToUse);
+            String newAccessToken = jwtUtil.generateToken(email);
+            String newRefreshToken = jwtUtil.generateRefreshToken(email);
+
+            // Imposta nuovo refresh token come cookie httpOnly
+            Cookie cookie = new Cookie("refreshToken", newRefreshToken);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(7 * 24 * 60 * 60);
+            response.addCookie(cookie);
+
+            Map<String, String> tokens = new HashMap<>();
+            tokens.put("accessToken", newAccessToken);
+            tokens.put("refreshToken", newRefreshToken);
+            return ResponseEntity.ok(tokens);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token non valido o scaduto");
         }
     }
 }

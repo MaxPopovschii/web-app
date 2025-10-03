@@ -15,7 +15,7 @@ public class Activity {
     @NotNull
     private String type;
     @NotNull
-    private Double amout;
+    private Double amount;
     @NotNull
     private LocalDate date;
 

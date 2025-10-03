@@ -1,3 +1,24 @@
+### Refresh Token e Sicurezza Sessione
+
+Per mantenere la sessione sicura e senza richiedere il login continuo, l'API espone l'endpoint `/auth/refresh-token`.
+
+- Al login, il backend può restituire sia un access token (scadenza breve) che un refresh token (scadenza lunga, es. 7 giorni).
+- Il refresh token viene inviato come cookie httpOnly e può essere usato per ottenere un nuovo access token quando quello attuale scade.
+
+#### Esempio di richiesta refresh token
+
+```http
+POST /auth/refresh-token
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiJ9...
+
+Risposta:
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiJ9..."
+}
+```
+
+Se il refresh token è scaduto o non valido, la risposta sarà 401 Unauthorized.
 # 🌿 EcoPasso: Cammina Verso un Futuro Sostenibile
 
 **EcoPasso** è l'app che ti aiuta a calcolare, monitorare e ridurre la tua impronta ecologica. Ogni passo conta per rendere il pianeta un posto migliore.  
@@ -130,25 +151,39 @@ Con **EcoPasso**, monitorare l'impronta ecologica diventa semplice e accessibile
 
 ### Esempi di codice
 
-#### Configurazione di un Controller REST
+
+### Gestione Ruoli e Sicurezza Endpoint
+
+Gli utenti hanno un campo `role` (es. `USER`, `ADMIN`).
+
+- Gli endpoint `/api/users` sono accessibili solo agli utenti con ruolo `ADMIN`.
+- Gli endpoint `/api/activities` sono accessibili a `USER` e `ADMIN`.
+
+#### Esempio: Creazione di un utente ADMIN
+
+```java
+User admin = User.builder()
+  .name("Admin")
+  .surname("Superuser")
+  .email("admin@ecopasso.com")
+  .password(passwordEncoder.encode("password"))
+  .role("ADMIN")
+  .build();
+userRepo.save(admin);
+```
+
+#### Esempio: Protezione Controller
 
 ```java
 @RestController
-@RequestMapping("/api/footprint")
-public class FootprintController {
+@RequestMapping("/api/users")
+@PreAuthorize("hasAuthority('ADMIN')")
+public class UserController { ... }
 
-    private final FootprintService footprintService;
-
-    public FootprintController(FootprintService footprintService) {
-        this.footprintService = footprintService;
-    }
-
-    @GetMapping("/{userId}")
-    public ResponseEntity<Footprint> getUserFootprint(@PathVariable Long userId) {
-        Footprint footprint = footprintService.calculateFootprint(userId);
-        return ResponseEntity.ok(footprint);
-    }
-}
+@RestController
+@RequestMapping("/api/activities")
+@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+public class ActivityController { ... }
 ```
 
 #### Configurazione di Sicurezza con JWT

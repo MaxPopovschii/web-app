@@ -7,5 +7,4 @@ import com.web.web_app.model.Activity;
 
 @Repository
 public interface ActivityRepo extends JpaRepository<Activity, Long>{
-    
 }

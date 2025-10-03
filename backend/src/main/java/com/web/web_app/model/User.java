@@ -41,4 +41,8 @@ public class User{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Activity> activities;
 
+    @Builder.Default
+    @Column(nullable = false)
+    private String role = "USER";
+
 }
